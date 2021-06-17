@@ -1,0 +1,15 @@
+FROM python:3
+ENV PYTHONUNBUFFERED 1
+ENV DJANGO_DEBUG 1
+RUN mkdir /django
+WORKDIR /django
+COPY requirements.txt /django/
+# chinese mirrors
+RUN pip config --user set global.index http://pypi.douban.com/
+RUN pip config --user set global.index-url http://pypi.douban.com/simple/
+RUN pip config --user set global.trusted-host pypi.douban.com
+RUN pip install -r requirements.txt
+COPY fabres /django/
+COPY polls /django/
+COPY manage.py /django/
+COPY db.sqlite3 /django/
